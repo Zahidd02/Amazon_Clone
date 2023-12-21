@@ -1,0 +1,22 @@
+<div class="checkout_product">
+  <img class="checkout__image" [src]="imageSrc">
+
+  <div class="checkout__details">
+    <p class="checkout__itemTitle">
+      {{ title }}
+    </p>
+
+    <div class="checkout__price">
+      <small>$</small>
+      <strong>{{ price }}</strong>
+    </div>
+
+    <div [innerHTML]="starHtml" class="checkout__rating">
+    </div>
+
+    <button [hidden]="isBtnHidden" (click)="deleteProduct()" type="button">
+      Remove from basket
+    </button>
+  </div>
+</div>
+

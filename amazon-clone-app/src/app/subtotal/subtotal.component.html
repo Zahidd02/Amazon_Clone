@@ -1,0 +1,13 @@
+<div class="subtotal">
+  <p>
+    Subtotal ({{ basketLength }} items): <strong>{{ amount | currency }}</strong>
+  </p>
+
+  <small class="subtotal__gift">
+    <input type="checkbox" /> This order contains a gift
+  </small>
+
+  <button (click)="redirectToPaymentOrSignIn()">
+    Proceed to Checkout
+  </button>
+</div>

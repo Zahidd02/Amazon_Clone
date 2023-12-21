@@ -1,0 +1,58 @@
+<app-header></app-header>
+<div class="payment">
+  <div class="payment__container">
+    <h1>Checkout (<a routerLink="/checkout" routerLinkActive="active">{{ basketLength > 1 || basketLength == 0 ? basketLength + ' items' : basketLength + ' item' }}</a>)</h1>
+
+    <div class="payment__section">
+      <div class="payment__title">
+        <h3>Delivery Address</h3>
+      </div>
+
+      <div [innerHTML]="shippingAddress" class="payment__address">
+      </div>
+    </div>
+
+    <div class="payment__section">
+      <div class="payment__title">
+        <h3>Review items and delivery</h3>
+      </div>
+
+      <div class="payment__items">
+        <div *ngFor="let item of items">
+          <app-checkout-products class="item" [item]="item" (onDelete)="deleteProduct($event)"></app-checkout-products>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment__section">
+      <div class="payment__title">
+        <h3>Payment Method</h3>
+      </div>
+
+      <div class="payment__details" style="flex: 0.8;">
+        <form (submit)="handleSubmit()">
+          <div #payment__stripe style="width: 100%;"></div>
+
+          <div *ngIf="btnError">
+            <small style="color:red">{{ btnError }}</small>
+          </div>
+          <br />
+
+          <div class="payment__priceContainer" style="flex-direction:column">
+            <strong>Order Total: {{ totAmount | currency }}</strong>
+
+            <button [ngClass]="{'disabled': btnProcessing}" [disabled]="btnProcessing">
+              <ng-container *ngIf="btnProcessing; else buyNowContent">
+                <p>Processing</p>
+              </ng-container>
+              <ng-template #buyNowContent>
+                Buy Now
+              </ng-template>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

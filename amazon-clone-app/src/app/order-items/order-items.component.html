@@ -1,0 +1,15 @@
+<div class="order" *ngIf="orderData">
+  <h2>Order</h2>
+
+  <p>{{ createdDate }}</p>
+
+  <p class="order__id">
+    <small>{{ orderData.id }}</small>
+  </p>
+
+  <div *ngFor="let item of items">
+    <app-checkout-products [isBtnHidden]="true" [item]="item"></app-checkout-products>
+  </div>
+
+  <h3 class="order__total">Order Total: {{ orderData.amount | currency }}</h3>
+</div>

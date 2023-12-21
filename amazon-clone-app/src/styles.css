@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #e3e6e6;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

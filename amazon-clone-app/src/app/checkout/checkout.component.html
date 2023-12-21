@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="checkout">
+  <div class="checkout__left">
+    <img class="checkout__ad" src="assets/images/amazon_ad/checkout_ad.jpg" alt=""/>
+
+    <div>
+      <h1>
+        Hello {{ userName }},
+      </h1>
+
+      <h2 class="checkout__title">
+        Your Shopping Basket
+      </h2>
+
+      <div *ngFor="let item of items">
+        <app-checkout-products class="item" [item]="item" (onDelete)="deleteProduct($event)"></app-checkout-products>
+      </div>
+    </div>
+  </div>
+  <div class="checkout__right">
+    <app-subtotal></app-subtotal>
+  </div>
+</div>

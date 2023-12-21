@@ -1,0 +1,28 @@
+1. Followed https://angular.io/guide/setup-local
+2. Added header component using "ng generate component header"
+3. Installed Angular Material (for icons) using https://material.angular.io/guide/getting-started 
+	Can be used like "<mat-icon fontIcon="home"></mat-icon>"
+4. When the value of a BehaviourSubject is changed using '.next()', it emits the changes to all subscribers using an exposed variable.
+	i.e in BasketService, private variable basketLength is a BehaviorSubject and changed using '.next()'. And exposed variable, basketLength$ is made an 	observable that changes the values across components. 
+	Note: You can directly subscribe BehaviourSubject variable but don't - since it can be changed intentionally by other components directly. 
+5. auth-config.ts file is Microsoft provided (Link: https://learn.microsoft.com/en-us/azure/active-directory-b2c/configure-authentication-sample-angular-spa-app#23-register-the-angular-app)
+	- Use git clone https://github.com/Azure-Samples/ms-identity-javascript-angular-tutorial.git, to get the template auth-config.ts file
+	- Copy whole auth-config.ts file, change - b2cPolicies accordingly
+	- Change msalConfig.auth.clientId accordingly
+	- Create MSALInstanceFactory() method in app.module and make sure to "initialize()" msal instance
+	- Add import: [MsalModule]
+	- Add providers: [{ provide: MSAL_INSTANCE, useFactory: MSALInstanceFactory }, MsalService]
+6. In app.module.ts, this.msalService.initialize() makes sure to initialize authService variable **TO BE READY** to handle the incoming jwt. Otherwise, ngOnInIt() runs itself before msalService is actually initialized.
+	- Check this comment by someone on GitHub: 
+	- It looks like you are calling handleRedirectCallback and subscribing to the msal:loginSuccess broadcast in your profile component but this component 	is never being used. Setting the redirectUri: http://localhost:4200/profile seemed to fix this. Keep in mind that whatever page you return to after 	redirection must initialize msal in order to save the token. You can then call handleRedirectCallback or subscribe to msal:loginSuccess to continue 	your app flow.
+7. Azure Function: 
+ 	- npm install -g azure-functions-core-tools
+	- func init functions
+	- cd functions
+	- func new --name StripePaymentFunction (Gives a boilerplate code with "Hello, World!" output)
+	- npm start
+8. Use "func host start --cors *" to avoid weird : Status (200) OK "ERRORS", instead of normal "npm start".
+						*OR*
+8. Add "Host": {"CORS": "*"} in local.settings.json to allow all origin. Then do normal npm start.
+
+9. To deploy Azure Function, create a Function App (AzurePaymentFunc in this case) in Azure Portal then write command "az login" to log into Azure account (You will need Azure CLI for this), next cd to functions folder, finally "func azure functionapp publish AzurePaymentFunc"

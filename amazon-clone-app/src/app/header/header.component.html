@@ -1,0 +1,68 @@
+<div class="header">
+  <img class="header__logo" routerLink="/home" src="assets/images/amazon_logo.png" />
+
+  <div class="header__search">
+    <input class="header__searchInput" type="text" />
+    <mat-icon class="header__searchIcon" fontIcon="search"></mat-icon>
+  </div>
+
+  <div class="header__nav">
+    <div (click)="login()" *ngIf="!isAuthenticated" class="header__option">
+      <span class="header__optionLineOne">
+        Hello Guest
+      </span>
+      <span class="header__optionLineTwo">
+        Sign in
+      </span>
+    </div>
+
+    <div (click)="logout()" *ngIf="isAuthenticated" class="header__option">
+      <span class="header__optionLineOne">
+        Hello {{ userName }}
+      </span>
+      <span class="header__optionLineTwo">
+        Sign out
+      </span>
+    </div>
+
+    <div *ngIf="isAuthenticated" routerLink="/orders" class="header__option">
+      <div class="header__option">
+        <span class="header__optionLineOne">
+          Returns
+        </span>
+        <span class="header__optionLineTwo">
+          & Orders
+        </span>
+      </div>
+    </div>
+
+    <div (click)="login()" *ngIf="!isAuthenticated" class="header__option">
+      <div class="header__option">
+        <span class="header__optionLineOne">
+          Returns
+        </span>
+        <span class="header__optionLineTwo">
+          & Orders
+        </span>
+      </div>
+    </div>
+
+    <div class="header__option">
+      <div class="header__option">
+        <span class="header__optionLineOne">
+          Your
+        </span>
+        <span class="header__optionLineTwo">
+          Prime
+        </span>
+      </div>
+    </div>
+
+    <div class="header__optionBasket" routerLink="/checkout">
+      <mat-icon fontIcon="shopping_basket"></mat-icon>
+      <span class="header__optionLineTwo header__basketCount">{{ basketItems }}</span>
+    </div>
+
+  </div>
+</div>
+

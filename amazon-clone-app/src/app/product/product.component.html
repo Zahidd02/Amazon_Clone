@@ -1,0 +1,17 @@
+<div class="product" *ngIf="isDataLoaded">
+  <img class="product_image" [src]="imageSrc" alt="Image">
+
+  <div class="product__info">
+    <p *ngIf="title">{{ (title.length>75)? (title | slice:0:75)+'...':(title) }}</p>
+  </div>
+
+  <div class="product__price">
+    <small>$</small>
+    <strong>{{ price }}</strong>
+  </div>
+
+  <div [innerHTML]="starHtml" class="product__rating">
+  </div>
+
+  <button (click)="addItemToBasket()">Add to Basket</button>
+</div>

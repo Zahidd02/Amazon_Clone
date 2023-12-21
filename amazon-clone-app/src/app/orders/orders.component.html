@@ -1,0 +1,12 @@
+<app-header></app-header>
+<div class="orders">
+  <h1>
+    Your Orders
+  </h1>
+
+  <div class="orders__order" *ngIf="orderData">
+    <app-order-items [orderData]="orderData"></app-order-items>
+  </div>
+</div>
+
+ 
