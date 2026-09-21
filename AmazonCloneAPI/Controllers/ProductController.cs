@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Azure;
 using Azure.Storage.Blobs;
-using System.ComponentModel;
+using Azure.Messaging.ServiceBus;
 
 namespace AmazonCloneAPI.Controllers
 {
@@ -14,6 +14,7 @@ namespace AmazonCloneAPI.Controllers
         private readonly CosmosClient _cosmosClient;
         private readonly CosmosClient _cosmosOrdersClient;
         private readonly BlobContainerClient _blobContainerClient;
+        private readonly ServiceBusClient _azureServiceBusClient;
 
         private readonly string _databaseId;
         private readonly string _containerId;
@@ -21,7 +22,8 @@ namespace AmazonCloneAPI.Controllers
         private readonly string _ordersDatabaseId;
         private readonly string _ordersContainerId;
 
-        private readonly string _azureMQSrvcBus;
+        private readonly string _azureServiceBusEndpoint;
+        private readonly string _ordersQueueName;
 
         public ProductController(IConfiguration configuration)
         {
@@ -52,8 +54,10 @@ namespace AmazonCloneAPI.Controllers
 
             //Plain Secrets Retrieval (Azure Service Bus)
             var azureServiceBusSetting = configuration.GetSection("AzureServiceBus");
-            _azureMQSrvcBus = azureServiceBusSetting["Endpoint"];
+            _azureServiceBusEndpoint = azureServiceBusSetting["Endpoint"];
+            _ordersQueueName = azureServiceBusSetting["OrdersQueueName"];
 
+            _azureServiceBusClient = new ServiceBusClient(_azureServiceBusEndpoint);
         }
 
         [HttpGet("GetProduct")] // /getproduct?productId=prod1001
@@ -103,20 +107,34 @@ namespace AmazonCloneAPI.Controllers
             }
         }
 
-        [HttpPost("PostNewOrder")] // /postneworder
+        [HttpPost("PostNewOrder")]
         public async Task<JsonResult> PostNewOrder([FromBody] Orders data)
         {
             try
             {
-                var container = _cosmosOrdersClient.GetContainer(_ordersDatabaseId, _ordersContainerId);
+                var container = _cosmosOrdersClient.GetContainer(
+                    _ordersDatabaseId,
+                    _ordersContainerId);
 
-                ItemResponse<Orders> response = await container.CreateItemAsync(data);
+                var response = await container.CreateItemAsync(data);
+
+                var sender = _azureServiceBusClient.CreateSender(_ordersQueueName);
+
+                var message = new ServiceBusMessage(
+                    BinaryData.FromObjectAsJson(data))
+                {
+                    ContentType = "application/json"
+                };
+
+                await sender.SendMessageAsync(message);
+                await sender.DisposeAsync();
+
                 return new JsonResult(response);
             }
             catch (Exception ex)
             {
-                string error = $"500, Internal Server Error: {ex.Message}";
-                return new JsonResult(error);
+                return new JsonResult(
+                    $"500, Internal Server Error: {ex.Message}");
             }
         }
 
@@ -141,12 +159,6 @@ namespace AmazonCloneAPI.Controllers
                 string error = $"500, Internal Server Error: {ex.Message}";
                 return new JsonResult(error);
             }
-        }
-
-        [HttpGet("GetAzureMQSecret")] // /GetAzureMQSecret
-        public async Task<JsonResult> GetAzureMQSecret()
-        {
-            return new JsonResult(this._azureMQSrvcBus);
         }
     }
 }

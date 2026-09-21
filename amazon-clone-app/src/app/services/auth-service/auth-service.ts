@@ -25,7 +25,6 @@ export class AuthService {
             this.isAuthenticated.next(true);
             this.userName.next(response.account.idTokenClaims!["given_name"] as string || "Guest");
             localStorage.setItem(this.jwt, JSON.stringify(response.idTokenClaims));   // Keeps user logged in even after refresh.
-            // console.log("Authentication Successful: ", response);
           }
         }).catch(error => {
           console.log("Authentication error:", error);

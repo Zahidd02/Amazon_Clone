@@ -16,14 +16,14 @@ const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigato
  */
 export const b2cPolicies = {
   names: {
-    signUpSignIn: 'B2C_1_SignUpSignIn'
+    signUpSignIn: 'AmazonClone_1_SignUpSignIn'
   },
   authorities: {
     signUpSignIn: {
-      authority: 'https://myamazoncloneorg.b2clogin.com/myamazoncloneorg.onmicrosoft.com/B2C_1_SignUpSignIn',
+      authority: 'https://amazonclone2026.ciamlogin.com/a1a39a9a-1774-4e41-9072-b10f2c6d5e0e',
     }
   },
-  authorityDomain: 'myamazoncloneorg.b2clogin.com',
+  authorityDomain: 'amazonclone2026.ciamlogin.com',
 };
 
 /**
@@ -33,13 +33,13 @@ export const b2cPolicies = {
  */
 export const msalConfig: Configuration = {
   auth: {
-    clientId: 'b8e00d45-1c7e-4a18-92a0-16020ffc9228', // This is the ONLY mandatory field that you need to supply.
-    authority: b2cPolicies.authorities.signUpSignIn.authority, // Defaults to "https://login.microsoftonline.com/common"
-    knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted.
-    redirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default. You must register this URI on Azure portal/App Registration.
-    //redirectUri: 'http://localhost:4200/', (DEV)
-    postLogoutRedirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default.
-    //postLogoutRedirectUri: '/' (DEV)
+    clientId: '11db9b97-e0e9-42f5-8f60-181ea6488ec8', // This is the ONLY mandatory field that you need to supply.
+    authority: 'https://amazonclone2026.ciamlogin.com/a1a39a9a-1774-4e41-9072-b10f2c6d5e0e', // Defaults to "https://login.microsoftonline.com/common"
+    knownAuthorities: ['amazonclone2026.ciamlogin.com'], // Mark your B2C tenant's domain as trusted.
+    //redirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default. You must register this URI on Azure portal/App Registration.
+    redirectUri: 'http://localhost:4200/', //(DEV)
+    //postLogoutRedirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default.
+    postLogoutRedirectUri: 'http://localhost:4200/' //(DEV)
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage, // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
@@ -68,7 +68,7 @@ export const msalConfig: Configuration = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-  scopes: ['openid', 'profile', 'app.read']
+  scopes: ['openid', 'profile', 'app.read', 'User.Read']
 }
 
 /**
