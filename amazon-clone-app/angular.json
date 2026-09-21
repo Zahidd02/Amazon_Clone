@@ -33,6 +33,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/Amazon_Clone_Hoster/",
               "budgets": [
                 {
                   "type": "initial",
