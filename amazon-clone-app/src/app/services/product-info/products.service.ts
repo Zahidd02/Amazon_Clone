@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductsService {
-  private apiBaseUrl = 'https://amazoncloneapi.azurewebsites.net';//'https://localhost:44332';
+  private apiBaseUrl = 'https://amazoncloneapi20260921113925-bzd7abbtg8gqencb.westus3-01.azurewebsites.net'; //'https://localhost:7111';
   constructor(private http: HttpClient) { }
 
   getProductData(productId: string): Observable<any> {
