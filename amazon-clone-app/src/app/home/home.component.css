@@ -6,11 +6,101 @@
   max-width: 1500px;
 }
 
-.home__advertImage {
+.home__feature {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 504px);
+  gap: 32px;
+  align-items: center;
+  min-height: 440px;
+  padding: 48px clamp(24px, 6vw, 96px);
+  box-sizing: border-box;
+  overflow: hidden;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.2) 100%), url("/assets/images/amazon_ad/amazon_prime_adv.png");
+  background-size: cover;
+}
+
+.home__featureContent {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+}
+
+.home__featureEyebrow {
+  margin: 0 0 12px;
+  color: #0073b1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home__feature h1 {
+  margin: 0;
+  color: #111;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+}
+
+.home__featureText {
+  margin: 18px 0 24px;
+  color: #37475a;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.home__linkedinEmbed {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  z-index: -1;
-  margin-bottom: -150px;
-  mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.22);
+}
+
+.home__linkedinEmbed iframe {
+  display: block;
+  width: 100%;
+  max-width: 504px;
+  border: 0;
+}
+
+.home__linkedinLink {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  color: #fff;
+  background: #0073b1;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.home__linkedinLink:hover {
+  background: #005f91;
+  text-decoration: underline;
+}
+
+.home__videoLink {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+@media (max-width: 760px) {
+  .home__feature {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 36px 20px;
+    background-position: center;
+  }
+
+  .home__linkedinEmbed {
+    max-width: 504px;
+    margin: 0 auto;
+  }
 }
 
 .home__row {
