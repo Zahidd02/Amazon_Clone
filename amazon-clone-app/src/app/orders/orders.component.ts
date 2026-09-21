@@ -8,7 +8,7 @@ import axios from 'axios';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  orderDetailUrl: string = "https://amazoncloneapi.azurewebsites.net/api/product/getorderbyid?id="
+  orderDetailUrl: string = "https://amazoncloneapi20260921113925-bzd7abbtg8gqencb.westus3-01.azurewebsites.net/api/product/getorderbyid?id="
   orderData?: any = null;
 
   constructor(private route: ActivatedRoute) { }

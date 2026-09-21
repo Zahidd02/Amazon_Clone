@@ -36,10 +36,10 @@ export const msalConfig: Configuration = {
     clientId: '11db9b97-e0e9-42f5-8f60-181ea6488ec8', // This is the ONLY mandatory field that you need to supply.
     authority: 'https://amazonclone2026.ciamlogin.com/a1a39a9a-1774-4e41-9072-b10f2c6d5e0e', // Defaults to "https://login.microsoftonline.com/common"
     knownAuthorities: ['amazonclone2026.ciamlogin.com'], // Mark your B2C tenant's domain as trusted.
-    //redirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default. You must register this URI on Azure portal/App Registration.
-    redirectUri: 'http://localhost:4200/', //(DEV)
-    //postLogoutRedirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default.
-    postLogoutRedirectUri: 'http://localhost:4200/' //(DEV)
+    redirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default. You must register this URI on Azure portal/App Registration.
+    //redirectUri: 'http://localhost:4200/', //(DEV)
+    postLogoutRedirectUri: 'https://zahidd02.github.io/Amazon_Clone_Hoster/', // Points to window.location.origin by default.
+    //postLogoutRedirectUri: 'http://localhost:4200/' //(DEV)
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage, // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.

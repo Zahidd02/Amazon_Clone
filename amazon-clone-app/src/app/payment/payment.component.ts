@@ -3,7 +3,6 @@ import { BasketService } from '../services/basket-items/basket.service';
 import { PaymentIntentResult, StripeCardElementChangeEvent, loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import { Router } from '@angular/router';
-import { ServiceBusClient, ServiceBusMessage } from '@azure/service-bus';
 import { AuthService } from '../services/auth-service/auth-service';
 
 
@@ -21,9 +20,9 @@ export class PaymentComponent implements OnInit {
   private stripe: any;
   private clientSecret: any; //Binds a transaction process in Stripe.
   cardElement: any;
-  baseUrl: string = "https://azurepaymentfunc.azurewebsites.net/api/"; //(PROD Env.)
+  baseUrl: string = "https://amazon-clone-function-dpb3ctbxhtdnfgc8.canadaeast-01.azurewebsites.net/api/"; //(PROD Env.)
   //baseUrl: string = "http://localhost:7071/api/"; //(DEV Env.)
-  cosmosOrderUrl: string = "https://amazoncloneapi.azurewebsites.net/api/product/postneworder";
+  cosmosOrderUrl: string = "https://amazoncloneapi20260921113925-bzd7abbtg8gqencb.westus3-01.azurewebsites.net/api/product/postneworder";
 
   totAmount: number = 0;
   basketLength: number = 0;
@@ -117,20 +116,11 @@ export class PaymentComponent implements OnInit {
       this.shippingAddress += `<p> ${json!.given_name} ${json!.family_name} <br>
                                    ${json!.streetAddress}                   <br>
                                    ${json!.city}, ${json!.state}            <br>
-                                   ${json!.country} - ${json!.postalCode}   </p>`;
+                                   ${json!.country ? json!.country + " -": ""} ${json!.postalCode}</p>`;
     }
   }
 
   private async sendToOrdersQueue(paymentIntent: any) {
-    //const connectionString = 'Endpoint=sb://myamazonclonesrvcbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=CxFfB4rlD8jk3PYHouxEAnRGY9RTwN6gl+ASbNk9HNc=';
-    let connectionString = ""
-    await axios.get("https://amazoncloneapi.azurewebsites.net/api/product/GetAzureMQSecret").then((val) => {
-      connectionString = val.data;
-    })
-    const queueName = 'ordersqueue';
-    const sbClient = new ServiceBusClient(connectionString);
-    const sender = sbClient.createSender(queueName);
-
     try {
       var orderItems = [];
       const userInfo = JSON.parse(localStorage.getItem(this.jwt) || "");
@@ -145,32 +135,18 @@ export class PaymentComponent implements OnInit {
       const jsonData = { // This data may also be sent to Logistics team - for further processing of the orders.
         id: paymentIntent.id,
         user: userInfo.given_name + " " + userInfo.family_name,
-        email: userInfo.emails[0],
+        email: userInfo.preferred_username,
         shippingAddress: userInfo.streetAddress + " " + userInfo.city + "-" + userInfo.postalCode,
         shippingState: userInfo.state,
         items: orderItems,
         created: paymentIntent.created,
         amount: paymentIntent.amount / 100 
       };
-
-      const message: ServiceBusMessage = {
-        body: jsonData,
-        contentType: 'application/json'
-      };
-
-      await sender.sendMessages(message);
-      axios.post(this.cosmosOrderUrl, jsonData).then((res) => {
-        //console.log(res.data.resource)
-      });
-
-      console.log('Item sent to Message Queue successfully!');
+      const response = await axios.post(this.cosmosOrderUrl, jsonData);
+      console.log(response.data.resource);
 
     } catch (e) {
-      console.error("Some error occurred. Cannot send message to the message queue. Error Details: ", e);
-
-    } finally {
-      await sender.close();
-      await sbClient.close();
+      console.error("Some error occurred while submitting the order. Error Details: ", e);
     }
   }
 }
