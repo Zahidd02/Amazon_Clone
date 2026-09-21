@@ -1,12 +1,39 @@
 <app-header></app-header>
 <div class="home">
   <div class="home__container">
-    <h4 style="color: white; background: black; text-align: center">
-      Hi Guys, Zahid Here!! Some features here won't work as
-      expected since I am using the Azure's "FREE TIER" plans. Sorry about that! ✌️.<br />
-    </h4>
-
-    <img class="home__advertImage" src="assets\images\amazon_ad\amazon_prime_adv.png" />
+    <section class="home__feature" aria-label="Amazon Prime and LinkedIn feature">
+      <div class="home__featureContent">
+        <p class="home__featureEyebrow">Featured on LinkedIn</p>
+        <h1>Check out this Amazon clone in action</h1>
+        <p class="home__featureText">
+          Explore my personal Amazon clone, built with Azure services and shared on LinkedIn.
+        </p>
+        <a
+          class="home__linkedinLink"
+          href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7144410606110949376/"
+          target="_blank"
+          rel="noopener noreferrer">
+          View the post on LinkedIn
+        </a>
+      </div>
+      <div class="home__linkedinEmbed">
+        <iframe
+          src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7144410606110949376?compact=1"
+          title="Embedded LinkedIn post"
+          height="399"
+          width="504"
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+        <a
+          class="home__videoLink"
+          href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7144410606110949376/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Watch the LinkedIn post">
+        </a>
+      </div>
+    </section>
 
     <div class="home__row">
       <app-product [productId]="2"></app-product>
